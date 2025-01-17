@@ -207,3 +207,25 @@ Canvas drawGamePlayElements(Canvas canvas, Size size, GamePlayState gamePlayStat
 
 }
 
+Canvas drawBoardTiles(Canvas canvas, GamePlayState gamePlayState) {
+
+  
+
+
+  Paint containerPaint = Paint()
+  ..color = Colors.white;
+
+  Paint tilePaint = Paint()
+  ..color = Colors.lightBlueAccent;
+
+  for (int i=0; i<gamePlayState.tileData.length; i++) {
+    Map<String,dynamic> tileObject = gamePlayState.tileData[i];
+    final int row = tileObject['row'];
+    final int column = tileObject['column'];
+
+    // final double leftGap = ()
+  }
+
+  return canvas;
+}
+
