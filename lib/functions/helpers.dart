@@ -9,7 +9,7 @@ class Helpers {
 
   double getTileSize(Size playAreaSize, int numRows, int numCols) {
     late double res = 0.0;
-    final double minTileSize = 50;
+    final double minTileSize = 10;
     final double maxTileSize = 80;
 
     late int maxAxisCount = max(numRows,numCols);

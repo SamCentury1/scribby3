@@ -76,6 +76,8 @@ class MainCanvasPainter extends CustomPainter {
     drawPlayArea(canvas,gamePlayState,canvasCenter);
 
     drawGamePlayElements(canvas,size,gamePlayState);
+
+    drawBoardTiles(canvas,size,gamePlayState,);
     // Size playAreaSize = gamePlayState.elementSizes["playArea"];
     // Paint playAreaPaint = Paint()
     // ..color = Color.fromARGB(245, 0, 0, 0);
@@ -207,9 +209,21 @@ Canvas drawGamePlayElements(Canvas canvas, Size size, GamePlayState gamePlayStat
 
 }
 
-Canvas drawBoardTiles(Canvas canvas, GamePlayState gamePlayState) {
+Canvas drawBoardTiles(Canvas canvas, Size size,  GamePlayState gamePlayState) {
 
-  
+
+  final Size scoreboardSize = gamePlayState.elementSizes["scoreboard"];
+  final Size playAreaSize = gamePlayState.elementSizes["playArea"];
+  final Size gapSpaceSize = gamePlayState.elementSizes["gapSpace"];
+  final Size randomLettersSize = gamePlayState.elementSizes["randomLetters"];
+  final Size tileSize = gamePlayState.elementSizes["tileSize"];
+  final Size bonusSize = gamePlayState.elementSizes["bonus"];
+
+  int numRows = Helpers().getNumAxis(gamePlayState.tileData)[0];
+  int numCols = Helpers().getNumAxis(gamePlayState.tileData)[1];
+
+  late double playAreaHorizontalGap = (size.width-playAreaSize.width)/2;
+  late double boardHorizontalGap = (playAreaSize.width-(tileSize.width*numCols))/2;
 
 
   Paint containerPaint = Paint()
@@ -223,7 +237,28 @@ Canvas drawBoardTiles(Canvas canvas, GamePlayState gamePlayState) {
     final int row = tileObject['row'];
     final int column = tileObject['column'];
 
-    // final double leftGap = ()
+    final double leftGap = (playAreaHorizontalGap+boardHorizontalGap+(tileSize.width/2));
+    final double left = leftGap+(tileSize.width*(column-1));
+
+    final double topGap = ((size.height-playAreaSize.height)/2)
+    + (2*(gapSpaceSize.height/3))
+    + scoreboardSize.height
+    + bonusSize.height
+    + randomLettersSize.height
+    + (tileSize.height/2);
+
+    final double top = topGap + (tileSize.height*(row-1));
+
+    final Offset tileCenter = Offset(left,top);
+
+    final Rect tileContainer = Rect.fromCenter(center: tileCenter, width: tileSize.width, height: tileSize.height);
+    final Rect tileRect = Rect.fromCenter(center: tileCenter, width: tileSize.width*0.9, height: tileSize.height*0.9);
+    final RRect tileRRect = RRect.fromRectAndRadius(tileRect, Radius.circular(12.0));
+
+    canvas.drawRect(tileContainer, containerPaint);
+    canvas.drawRRect(tileRRect, tilePaint);
+
+    // Helpers().displayText(canvas, size, tileObject[i]["body"], tileCenter);
   }
 
   return canvas;
